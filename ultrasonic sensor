@@ -1,0 +1,42 @@
+#include <Servo.h>
+
+// Create Servo object
+Servo myServo;
+
+// Joystick pins
+const int joystickX = A0;
+const int joystickY = A1;
+
+// Servo control pin
+const int servoPin = 9;
+
+// Variables to store joystick values
+int xValue, yValue;
+int servoAngle = 90; // Initial servo angle
+
+void setup() {
+  myServo.attach(servoPin);   // Attach the servo to pin 9
+  myServo.write(servoAngle);  // Set initial servo position
+  pinMode(joystickX, INPUT);  // Set joystick X-axis as input
+  pinMode(joystickY, INPUT);  // Set joystick Y-axis as input
+  Serial.begin(9600);         // Start Serial Monitor for debugging
+}
+
+void loop() {
+  // Read joystick X-axis value
+  xValue = analogRead(joystickX);
+
+  // Map joystick value to servo angle
+  servoAngle = map(xValue, 0, 1023, 0, 180);
+
+  // Set servo position
+  myServo.write(servoAngle);
+
+  // Debugging: Print values to Serial Monitor
+  Serial.print("Joystick X: ");
+  Serial.print(xValue);
+  Serial.print(" | Servo Angle: ");
+  Serial.println(servoAngle);
+
+  delay(15); // Small delay for smooth movement
+}
